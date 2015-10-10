@@ -56,6 +56,8 @@ public class ParkActivity extends ActionBarActivity
                 .commit();
     }
 
+    //Action bar titles for each navigation drawer activity. change in strings.xml
+    //to preserve continuity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
