@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
         System.out.println("first commie3e3e3e3e3e3");
         setContentView(R.layout.activity_main);
         ImageButton menu_button = (ImageButton) findViewById(R.id.menuImageButton);
+        //pop up a Toast on long press
         menu_button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

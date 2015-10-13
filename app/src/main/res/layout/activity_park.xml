@@ -7,7 +7,42 @@
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
     <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView"
+                    android:layout_gravity="center_horizontal|top"
+                    android:src="@mipmap/corewest"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/parkingMap" />
+
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <!-- code for bottom half here -->
+                </LinearLayout>
+        </LinearLayout>
+
+
+
+
+    </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right
@@ -21,5 +56,8 @@
         android:layout_gravity="start"
         android:name="com.example.shreyvalia.parking.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
+
+
+
 
 </android.support.v4.widget.DrawerLayout>

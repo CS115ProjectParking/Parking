@@ -1,27 +1,24 @@
 package com.example.shreyvalia.parking;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 
 public class ParkActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private ImageView iv;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -41,6 +38,8 @@ public class ParkActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        iv = (ImageView) findViewById(R.id.imageView);
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -56,17 +55,35 @@ public class ParkActivity extends ActionBarActivity
                 .commit();
     }
 
+    //Action bar titles for each navigation drawer activity. change in strings.xml
+    //to preserve continuity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
+                iv.setImageResource(R.mipmap.corewest);
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
+                iv.setImageResource(R.mipmap.northremote);
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                iv.setImageResource(R.mipmap.eastremote);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                iv.setImageResource(R.mipmap.c10);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                iv.setImageResource(R.mipmap.crown);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
+                iv.setImageResource(R.mipmap.healthcenter);
+                break;
+
         }
     }
 
