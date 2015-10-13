@@ -8,9 +8,16 @@
     <string name="title_section1">Core West</string>
     <string name="title_section2">North Remote</string>
     <string name="title_section3">East Remote</string>
+    <string name="title_section4">College Ten</string>
+    <string name="title_section5">Crown</string>
+    <string name="title_section6">Health Center</string>
+
+
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+    <string name="parkingMap">Map of parking lot</string>
 </resources>

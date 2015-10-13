@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:longClickable="true"
-        android:src="@mipmap/main_page"
+        android:src="@mipmap/slug1"
         android:onClick="move_to_park"
         android:scaleType="fitXY" />
 
