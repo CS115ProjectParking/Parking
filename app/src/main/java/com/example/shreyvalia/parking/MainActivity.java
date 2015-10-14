@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onLongClick(View v) {
                 Context context = getApplicationContext();
-                String text = "Team Brainswans:\nShrey Valia\nAman Mangalore\nRamin Ebrahimi\nCurtis Liew\nDanielle Positeri\nPeter Kotik";
+                String text = "Team Brainswans:\nShrey Valia\nAman Mangalore\nRamin Ebrahimi\nCurtis Liew\nDani Positeri\nPeter Kotik";
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
