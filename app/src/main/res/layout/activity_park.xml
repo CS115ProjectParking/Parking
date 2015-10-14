@@ -34,8 +34,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-
-                <!-- code for bottom half here -->
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/circular_progress_bar"
+                    android:background="@drawable/circle_shape"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="100"
+                    android:progress="65" />                <!-- code for bottom half here -->
                 </LinearLayout>
         </LinearLayout>
 
