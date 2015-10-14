@@ -4,3 +4,5 @@
 /.idea/libraries
 .DS_Store
 /build
+/build/outputs/apk/app-debug-unaligned.apk
+/app/app.iml
