@@ -1,5 +1,6 @@
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/drawer_layout"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="com.example.shreyvalia.parking.ParkActivity">
@@ -46,7 +47,8 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:max="100"
                     android:progress="65"
-                    android:layout_weight="0.25" />
+                    android:layout_weight="0.25"
+                    donut:donut_text/>
 
                 <TextView
                     android:layout_width="wrap_content"
