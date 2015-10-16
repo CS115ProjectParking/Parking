@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 
 public class ParkActivity extends ActionBarActivity
@@ -40,6 +41,8 @@ public class ParkActivity extends ActionBarActivity
 
         iv = (ImageView) findViewById(R.id.imageView);
 
+        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
+        pb.setProgress(100);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
