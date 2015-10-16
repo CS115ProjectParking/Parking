@@ -33,22 +33,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:weightSum="1">
+
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_height="match_parent"
                     android:indeterminate="false"
                     android:progressDrawable="@drawable/circular_progress_bar"
                     android:background="@drawable/circle_shape"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:max="100"
-                    android:progress="65" />                <!-- code for bottom half here -->
+                    android:progress="65"
+                    android:layout_weight="0.25" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Lot Availability"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.29" />
+
+                <!-- code for bottom half here -->
                 </LinearLayout>
         </LinearLayout>
-
-
-
 
     </FrameLayout>
 

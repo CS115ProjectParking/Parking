@@ -1,5 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <!-- https://github.com/daimajia/NumberProgressBar/blob/master/library/src/main/res/values/styles.xml -->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
