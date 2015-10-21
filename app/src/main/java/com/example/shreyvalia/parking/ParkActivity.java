@@ -1,9 +1,14 @@
 package com.example.shreyvalia.parking;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,7 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.shreyvalia.parking.LotIntentService;
 
 public class ParkActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -28,6 +35,15 @@ public class ParkActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    private class LotReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            int capacity = intent.getIntExtra("cap", 0);
+            int population = intent.getIntExtra("pop", 0);
+            TextView capacity_text = (TextView) findViewById(R.id.capacityTextView);
+            capacity_text.setText(population + "/" + capacity + " spots taken");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +60,9 @@ public class ParkActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
+        LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
     }
 
     @Override
@@ -53,6 +72,11 @@ public class ParkActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+
+        //deliver intent to lot service
+        Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
+        serviceIntent.putExtra("lot", position + 1);
+        startService(serviceIntent);
     }
 
     //Action bar titles for each navigation drawer activity. change in strings.xml
@@ -83,7 +107,6 @@ public class ParkActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section6);
                 iv.setImageResource(R.mipmap.healthcenter);
                 break;
-
         }
     }
 

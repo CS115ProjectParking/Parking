@@ -36,7 +36,13 @@
                 android:layout_weight="1">
 
                 <!-- code for bottom half here -->
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0/0"
+                    android:id="@+id/capacityTextView" />
+            </LinearLayout>
         </LinearLayout>
 
 

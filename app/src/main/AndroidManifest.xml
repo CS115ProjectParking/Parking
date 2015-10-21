@@ -20,6 +20,11 @@
             android:name=".ParkActivity"
             android:label="@string/title_activity_park" >
         </activity>
+
+        <service
+            android:name=".LotIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

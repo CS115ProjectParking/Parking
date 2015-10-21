@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="corewest_cap">125</integer>
+    <integer name="corewest_pop">112</integer>
+    <integer name="northremote_cap">100</integer>
+    <integer name="northremote_pop">65</integer>
+    <integer name="eastremote_cap">150</integer>
+    <integer name="eastremote_pop">138</integer>
+    <integer name="c10_cap">60</integer>
+    <integer name="c10_pop">58</integer>
+    <integer name="crown_cap">50</integer>
+    <integer name="crown_pop">31</integer>
+    <integer name="healthcenter_cap">40</integer>
+    <integer name="healthcenter_pop">11</integer>
+</resources>
