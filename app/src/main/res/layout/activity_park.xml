@@ -33,16 +33,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <!-- code for bottom half here -->
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/capacity_progressbar"
+                    android:layout_gravity="center_horizontal" />
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="0/0"
-                    android:id="@+id/capacityTextView" />
+                    android:id="@+id/capacityTextView"
+                    android:gravity="center" />
+
             </LinearLayout>
+
         </LinearLayout>
 
 

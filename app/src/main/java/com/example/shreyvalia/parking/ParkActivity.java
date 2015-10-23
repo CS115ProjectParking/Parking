@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.shreyvalia.parking.LotIntentService;
@@ -42,6 +43,8 @@ public class ParkActivity extends ActionBarActivity
             int population = intent.getIntExtra("pop", 0);
             TextView capacity_text = (TextView) findViewById(R.id.capacityTextView);
             capacity_text.setText(population + "/" + capacity + " spots taken");
+            ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
+            progress.setProgress(100 * population / capacity);
         }
     }
 
@@ -63,6 +66,8 @@ public class ParkActivity extends ActionBarActivity
 
         IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
+        ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
+        progress.setProgress(0);
     }
 
     @Override
@@ -72,10 +77,13 @@ public class ParkActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+        refresh_lot(position);
+    }
 
+    public void refresh_lot(int lot_number) {
         //deliver intent to lot service
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
-        serviceIntent.putExtra("lot", position + 1);
+        serviceIntent.putExtra("lot", lot_number + 1);
         startService(serviceIntent);
     }
 
