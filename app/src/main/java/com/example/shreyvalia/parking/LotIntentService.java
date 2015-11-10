@@ -31,27 +31,27 @@ public class LotIntentService extends IntentService {
 
             //get data corresponding to lot number
             switch (lot_number) {
-                case 1:
+                case 0:
                     cap = res.getInteger(R.integer.corewest_cap);
                     pop = res.getInteger(R.integer.corewest_pop);
                     break;
-                case 2:
+                case 1:
                     cap = res.getInteger(R.integer.northremote_cap);
                     pop = res.getInteger(R.integer.northremote_pop);
                     break;
-                case 3:
+                case 2:
                     cap = res.getInteger(R.integer.eastremote_cap);
                     pop = res.getInteger(R.integer.eastremote_pop);
                     break;
-                case 4:
+                case 3:
                     cap = res.getInteger(R.integer.c10_cap);
                     pop = res.getInteger(R.integer.c10_pop);
                     break;
-                case 5:
+                case 4:
                     cap = res.getInteger(R.integer.crown_cap);
                     pop = res.getInteger(R.integer.crown_pop);
                     break;
-                case 6:
+                case 5:
                     cap = res.getInteger(R.integer.healthcenter_cap);
                     pop = res.getInteger(R.integer.healthcenter_pop);
                     break;
@@ -60,6 +60,8 @@ public class LotIntentService extends IntentService {
                     cap);
             statusIntent.putExtra("pop",
                     pop);
+            statusIntent.putExtra("id",
+                    lot_number);
             //broadcast data so it can be read from the activity that created the intent
             LocalBroadcastManager.getInstance(this).sendBroadcast(statusIntent);
         }

@@ -25,6 +25,11 @@
             android:name=".LotIntentService"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".OverviewActivity"
+            android:label="@string/title_activity_overview" >
+        </activity>
     </application>
 
 </manifest>

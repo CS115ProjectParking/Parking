@@ -20,4 +20,8 @@
 
     <string name="action_example">Example action</string>
     <string name="parkingMap">Map of parking lot</string>
+
+    <string name="title_activity_overview">OverviewActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
