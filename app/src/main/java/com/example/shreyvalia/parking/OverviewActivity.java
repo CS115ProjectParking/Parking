@@ -1,9 +1,16 @@
 package com.example.shreyvalia.parking;
 
+import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,11 +20,24 @@ public class OverviewActivity extends ActionBarActivity {
 
     int num_lots = 6;
     String lot_names[] = {"Core West", "North Remote", "East Remote", "College 10", "Crown", "Health Center"};
+    ParkingLot lots[] = new ParkingLot[num_lots];
 
     private class ParkingLot {
         int id, capacity = 0, population = 0;
         TextView name, space;
         ProgressBar progress;
+    }
+
+    private class LotReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            int capacity = intent.getIntExtra("cap", 0);
+            int population = intent.getIntExtra("pop", 0);
+            int id = intent.getIntExtra("id", 0);
+            TextView capacity_text = lots[id].space;
+            capacity_text.setText(population + "/" + capacity);
+            ProgressBar progress = lots[id].progress;
+            progress.setProgress(100 * population / capacity);
+        }
     }
 
     @Override
@@ -28,9 +48,51 @@ public class OverviewActivity extends ActionBarActivity {
         LinearLayout lots_layout = (LinearLayout) findViewById(R.id.lots_layout);
 
         for (int i = 0; i < num_lots; i++) {
+            ParkingLot new_lot = new ParkingLot();
+            new_lot.id = i;
+
             LinearLayout lot_layout = new LinearLayout(this);
             lot_layout.setOrientation(LinearLayout.HORIZONTAL);
-            
+
+            LinearLayout text_layout = new LinearLayout(this);
+            text_layout.setOrientation(LinearLayout.HORIZONTAL);
+            text_layout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+            TextView name = new TextView(this);
+            name.setText(lot_names[i]);
+            text_layout.addView(name);
+            new_lot.name = name;
+
+
+            TextView space = new TextView(this);
+            space.setText("n/a");
+            space.setGravity(Gravity.RIGHT);
+            space.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+            text_layout.addView(space);
+            new_lot.space = space;
+
+            ProgressBar progress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+            progress.setProgress(50);
+            lot_layout.addView(progress);
+            new_lot.progress = progress;
+
+            lot_layout.addView(text_layout);
+
+            final Intent intent = new Intent(OverviewActivity.this, ParkActivity.class);
+            intent.putExtra("lot_id", i);
+            lot_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(intent);
+                }
+            });
+
+            lots_layout.addView(lot_layout);
         }
 
     }
