@@ -6,10 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -55,6 +52,11 @@ public class ParkActivity extends ActionBarActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
         ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
         progress.setProgress(0);
+
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("lot_id", 0);
+        setResources(id);
+        refresh_lot(id);
     }
 
     public void refresh_lot(int lot_number) {
@@ -66,7 +68,7 @@ public class ParkActivity extends ActionBarActivity {
 
     //Action bar titles for each navigation drawer activity. change in strings.xml
     //to preserve continuity
-    public void onSectionAttached(int number) {
+    public void setResources(int number) {
         switch (number) {
             case 0:
                 mTitle = getString(R.string.title_section1);
