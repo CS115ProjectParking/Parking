@@ -83,7 +83,7 @@ public class ParkActivity extends ActionBarActivity
     public void refresh_lot(int lot_number) {
         //deliver intent to lot service
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
-        serviceIntent.putExtra("lot", lot_number);
+        serviceIntent.putExtra("lot", lot_number + 1);
         startService(serviceIntent);
     }
 

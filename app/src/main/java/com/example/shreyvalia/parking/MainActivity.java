@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
     }
 
     public void move_to_park(View v) {
-        Intent intent = new Intent(MainActivity.this, OverviewActivity.class);
+        Intent intent = new Intent(MainActivity.this, ParkActivity.class);
         startActivity(intent);
     }
 }
