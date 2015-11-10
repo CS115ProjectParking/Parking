@@ -23,14 +23,9 @@ import android.widget.TextView;
 
 import com.example.shreyvalia.parking.LotIntentService;
 
-public class ParkActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class ParkActivity extends ActionBarActivity {
 
     private ImageView iv;
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -53,31 +48,13 @@ public class ParkActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
         iv = (ImageView) findViewById(R.id.imageView);
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
 
         IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
         ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
         progress.setProgress(0);
-    }
-
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-        refresh_lot(position);
     }
 
     public void refresh_lot(int lot_number) {
@@ -91,27 +68,27 @@ public class ParkActivity extends ActionBarActivity
     //to preserve continuity
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
+            case 0:
                 mTitle = getString(R.string.title_section1);
                 iv.setImageResource(R.mipmap.corewest);
                 break;
-            case 2:
+            case 1:
                 mTitle = getString(R.string.title_section2);
                 iv.setImageResource(R.mipmap.northremote);
                 break;
-            case 3:
+            case 2:
                 mTitle = getString(R.string.title_section3);
                 iv.setImageResource(R.mipmap.eastremote);
                 break;
-            case 4:
+            case 3:
                 mTitle = getString(R.string.title_section4);
                 iv.setImageResource(R.mipmap.c10);
                 break;
-            case 5:
+            case 4:
                 mTitle = getString(R.string.title_section5);
                 iv.setImageResource(R.mipmap.crown);
                 break;
-            case 6:
+            case 5:
                 mTitle = getString(R.string.title_section6);
                 iv.setImageResource(R.mipmap.healthcenter);
                 break;
@@ -120,7 +97,6 @@ public class ParkActivity extends ActionBarActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
@@ -128,14 +104,6 @@ public class ParkActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.park, menu);
-            restoreActionBar();
-            return true;
-        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -152,46 +120,6 @@ public class ParkActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_park, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((ParkActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
 }

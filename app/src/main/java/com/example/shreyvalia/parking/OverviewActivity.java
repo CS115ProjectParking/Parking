@@ -4,9 +4,12 @@ import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +55,7 @@ public class OverviewActivity extends ActionBarActivity {
             new_lot.id = i;
 
             LinearLayout lot_layout = new LinearLayout(this);
-            lot_layout.setOrientation(LinearLayout.HORIZONTAL);
+            lot_layout.setOrientation(LinearLayout.VERTICAL);
 
             LinearLayout text_layout = new LinearLayout(this);
             text_layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -76,12 +79,12 @@ public class OverviewActivity extends ActionBarActivity {
             text_layout.addView(space);
             new_lot.space = space;
 
+            lot_layout.addView(text_layout);
+
             ProgressBar progress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-            progress.setProgress(50);
+            progress.setProgress(0);
             lot_layout.addView(progress);
             new_lot.progress = progress;
-
-            lot_layout.addView(text_layout);
 
             final Intent intent = new Intent(OverviewActivity.this, ParkActivity.class);
             intent.putExtra("lot_id", i);
@@ -93,8 +96,27 @@ public class OverviewActivity extends ActionBarActivity {
             });
 
             lots_layout.addView(lot_layout);
+            lots[i] = new_lot;
         }
 
+        IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
+        LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
+
+        refresh_all();
+
+    }
+
+    private void refresh_all() {
+        for (int i = 0; i < num_lots; i++) {
+            refresh_lot(i);
+        }
+    }
+
+    private void refresh_lot(int lot_number) {
+        //deliver intent to lot service
+        Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
+        serviceIntent.putExtra("lot", lot_number);
+        startService(serviceIntent);
     }
 
     @Override
