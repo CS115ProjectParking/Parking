@@ -1,6 +1,5 @@
 package com.example.shreyvalia.parking;
 
-import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,15 +16,20 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class OverviewActivity extends ActionBarActivity {
 
-    int num_lots = 6;
-    String lot_names[] = {"Core West", "North Remote", "East Remote", "College 10", "Crown", "Health Center"};
-    ParkingLot lots[] = new ParkingLot[num_lots];
+    private int num_lots = 6;
+    private String lot_names[] = {"Core West", "North Remote", "East Remote", "College 10", "Crown", "Health Center"};
+    private ParkingLot lots[] = new ParkingLot[num_lots];
+    private Timer updater;
+    private final int refresh_duration = 15;
 
     private class ParkingLot {
-        int id, capacity = 0, population = 0;
+        int id;
         TextView name, space;
         ProgressBar progress;
     }
@@ -47,6 +50,7 @@ public class OverviewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
+        setTitle("Overview");
 
         LinearLayout lots_layout = (LinearLayout) findViewById(R.id.lots_layout);
 
@@ -103,7 +107,6 @@ public class OverviewActivity extends ActionBarActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
 
         refresh_all();
-
     }
 
     private void refresh_all() {
@@ -117,6 +120,29 @@ public class OverviewActivity extends ActionBarActivity {
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
         serviceIntent.putExtra("lot", lot_number);
         startService(serviceIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updater = new Timer();
+        updater.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh_all();
+                    }
+                });
+            }
+        }, 0, refresh_duration * 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updater.cancel();
     }
 
     @Override
