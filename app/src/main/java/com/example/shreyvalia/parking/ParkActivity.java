@@ -1,5 +1,6 @@
 package com.example.shreyvalia.parking;
 
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,16 +10,17 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.MapFragment;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ParkActivity extends ActionBarActivity {
 
-    private ImageView iv;
+//    private ImageView iv;
     private Timer updater;
     private int id;
     private final int refresh_duration = 15;
@@ -39,12 +41,23 @@ public class ParkActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
 
-        iv = (ImageView) findViewById(R.id.imageView);
+//        iv = (ImageView) findViewById(R.id.imageView);
 
         IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
         ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
         progress.setProgress(0);
+
+
+        MapFragment mMapFragment = MapFragment.newInstance();
+        FragmentTransaction fragmentTransaction = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.imageView, mMapFragment);
+            fragmentTransaction.commit();
+        }
+
+
 
         Intent intent = getIntent();
         id = intent.getIntExtra("lot_id", 0);
@@ -62,34 +75,34 @@ public class ParkActivity extends ActionBarActivity {
     //Action bar titles for each navigation drawer activity. change in strings.xml
     //to preserve continuity
     public void setResources(int number) {
-        CharSequence title = getTitle();
-        switch (number) {
-            case 0:
-                title = getString(R.string.title_section1);
-                iv.setImageResource(R.mipmap.corewest);
-                break;
-            case 1:
-                title = getString(R.string.title_section2);
-                iv.setImageResource(R.mipmap.northremote);
-                break;
-            case 2:
-                title = getString(R.string.title_section3);
-                iv.setImageResource(R.mipmap.eastremote);
-                break;
-            case 3:
-                title = getString(R.string.title_section4);
-                iv.setImageResource(R.mipmap.c10);
-                break;
-            case 4:
-                title = getString(R.string.title_section5);
-                iv.setImageResource(R.mipmap.crown);
-                break;
-            case 5:
-                title = getString(R.string.title_section6);
-                iv.setImageResource(R.mipmap.healthcenter);
-                break;
-        }
-        setTitle(title);
+//        CharSequence title = getTitle();
+//        switch (number) {
+//            case 0:
+//                title = getString(R.string.title_section1);
+//                iv.setImageResource(R.mipmap.corewest);
+//                break;
+//            case 1:
+//                title = getString(R.string.title_section2);
+//                iv.setImageResource(R.mipmap.northremote);
+//                break;
+//            case 2:
+//                title = getString(R.string.title_section3);
+//                iv.setImageResource(R.mipmap.eastremote);
+//                break;
+//            case 3:
+//                title = getString(R.string.title_section4);
+//                iv.setImageResource(R.mipmap.c10);
+//                break;
+//            case 4:
+//                title = getString(R.string.title_section5);
+//                iv.setImageResource(R.mipmap.crown);
+//                break;
+//            case 5:
+//                title = getString(R.string.title_section6);
+//                iv.setImageResource(R.mipmap.healthcenter);
+//                break;
+//        }
+//        setTitle(title);
     }
 
     @Override
