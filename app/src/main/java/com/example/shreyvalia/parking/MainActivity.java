@@ -1,18 +1,35 @@
 package com.example.shreyvalia.parking;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("first commie33");
         setContentView(R.layout.activity_main);
+        ImageButton menu_button = (ImageButton) findViewById(R.id.menuImageButton);
+        //pop up a Toast on long press
+        menu_button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Context context = getApplicationContext();
+                String text = "Team Brainswans:\nShrey Valia\nAman Mangalore\nRamin Ebrahimi\nCurtis Liew\nDani Positeri\nPeter Kotik";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                return true;
+            }
+        });
     }
 
 
@@ -36,5 +53,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void move_to_park(View v) {
+        Intent intent = new Intent(MainActivity.this, OverviewActivity.class);
+        startActivity(intent);
     }
 }
