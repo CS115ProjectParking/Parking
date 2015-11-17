@@ -24,7 +24,6 @@ public class LotIntentService extends IntentService {
     }
 
 
-
     @Override
     protected void onHandleIntent(Intent intent) {
         Firebase.setAndroidContext(this);
@@ -43,6 +42,8 @@ public class LotIntentService extends IntentService {
             //get data corresponding to lot number
             switch (lot_number) {
                 case 0:
+                    //the data is only fetched when the thread refreseshs and there is a change on FB.
+                    //TODO: figure out a way to fetch newest data for onetime use instead of on data chage.
                     myFB.child("Count").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {

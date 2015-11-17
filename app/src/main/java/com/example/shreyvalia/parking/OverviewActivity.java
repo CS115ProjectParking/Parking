@@ -4,10 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +26,9 @@ public class OverviewActivity extends ActionBarActivity {
     private ParkingLot lots[] = new ParkingLot[num_lots];
     private Timer updater;
     private final int refresh_duration = 15;
+    int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
+
+    //TODO: checkout the keepSynced method
 
     private class ParkingLot {
         int id;
@@ -119,6 +121,7 @@ public class OverviewActivity extends ActionBarActivity {
         //deliver intent to lot service
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
         serviceIntent.putExtra("lot", lot_number);
+//        serviceIntent.putExtra("population", popu[lotnumber]);
         startService(serviceIntent);
     }
 
