@@ -89,7 +89,10 @@ public class OverviewActivity extends ActionBarActivity {
 
             ProgressBar progress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
             progress.setProgress(0);
+            progress.setScaleY(3f);
             lot_layout.addView(progress);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50);
+            progress.setLayoutParams(layoutParams);
             new_lot.progress = progress;
 
             final Intent intent = new Intent(OverviewActivity.this, ParkActivity.class);

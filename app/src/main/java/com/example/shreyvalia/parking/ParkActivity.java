@@ -47,6 +47,7 @@ public class ParkActivity extends ActionBarActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
         ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
         progress.setProgress(0);
+        progress.setScaleY(3f);
 
 
         MapFragment mMapFragment = MapFragment.newInstance();
