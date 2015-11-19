@@ -1,25 +1,26 @@
 package com.example.shreyvalia.parking;
 
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.animation.ObjectAnimator;
-import android.view.animation.DecelerateInterpolator;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -33,6 +34,7 @@ public class ParkActivity extends AppCompatActivity {
     private int id;
     private int oldSpots;
     private final int refresh_duration = 5;
+    int pop = 0;
 
     private class LotReceiver extends BroadcastReceiver {
         public void onReceive(Context context, Intent intent) {
@@ -63,7 +65,25 @@ public class ParkActivity extends AppCompatActivity {
 
         ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setProgress(0);
-       // progress.setScaleY(3f);
+
+        final int [] popTemp = {0};
+        FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String a = snapshot.getValue().toString();
+
+                String b = a.substring(0).toString();
+                popTemp[0] = Integer.parseInt(b);
+                pop = popTemp[0];
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+            }
+
+        });
+
+        // progress.setScaleY(3f);
 
 
 //        MapFragment mMapFragment = MapFragment.newInstance();
@@ -103,6 +123,7 @@ public class ParkActivity extends AppCompatActivity {
         //deliver intent to lot service
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
         serviceIntent.putExtra("lot", lot_number);
+        serviceIntent.putExtra("pop", pop);
         startService(serviceIntent);
     }
 

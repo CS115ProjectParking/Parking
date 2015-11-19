@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,6 +16,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,7 +34,7 @@ public class OverviewActivity extends AppCompatActivity {
     private int oldSpots;
     private final int refresh_duration = 5;
     int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
-
+    int pop = 0;
     //TODO: checkout the keepSynced method
 
     private class ParkingLot {
@@ -61,11 +64,29 @@ public class OverviewActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
         setTitle("Overview");
+
+        final int [] popTemp = {0};
+        FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String a = snapshot.getValue().toString();
+
+                String b = a.substring(0).toString();
+                popTemp[0] = Integer.parseInt(b);
+                pop = popTemp[0];
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+            }
+
+        });
 
         oldSpots = 0;
         LinearLayout lots_layout = (LinearLayout) findViewById(R.id.lots_layout);
@@ -138,6 +159,7 @@ public class OverviewActivity extends AppCompatActivity {
         //deliver intent to lot service
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
         serviceIntent.putExtra("lot", lot_number);
+        serviceIntent.putExtra("pop", pop);
 //        serviceIntent.putExtra("population", popu[lotnumber]);
         startService(serviceIntent);
     }

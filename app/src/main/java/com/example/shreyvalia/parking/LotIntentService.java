@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -17,20 +12,19 @@ import com.firebase.client.ValueEventListener;
 
 public class LotIntentService extends IntentService {
 
-    Firebase myFB;
+    static int pop;
 
     public LotIntentService() {
         super("LotIntentService");
     }
 
-
     @Override
     protected void onHandleIntent(Intent intent) {
-        Firebase.setAndroidContext(this);
-        myFB = new Firebase("https://torrid-heat-8415.firebaseio.com/");
+
 
         if (intent != null) {
             int lot_number = intent.getIntExtra("lot", 0);
+            int popuu = intent.getIntExtra("pop", 0); ///////// EXTRA
             //TODO: get data from server instead of mock data from lots.xml
             //but for now
             Intent statusIntent = new Intent("BROADCAST_LOTDATA");
@@ -38,30 +32,14 @@ public class LotIntentService extends IntentService {
             Resources res = getApplicationContext().getResources();
             int cap = 0, pop = 0;
 
-            final int [] popTemp = {0};
             //get data corresponding to lot number
             switch (lot_number) {
                 case 0:
                     //the data is only fetched when the thread refreseshs and there is a change on FB.
                     //TODO: figure out a way to fetch newest data for onetime use instead of on data chage.
-                    myFB.child("Count").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            String a = snapshot.getValue().toString();
-                            
-                            String b = a.substring(0).toString();
-                            popTemp[0] = Integer.parseInt(b);
-
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError error) {
-                        }
-
-                    });
 
                     cap = res.getInteger(R.integer.corewest_cap);
-                    pop = popTemp[0];
+                    pop = popuu;
                     break;
                 case 1:
                     cap = res.getInteger(R.integer.northremote_cap);
