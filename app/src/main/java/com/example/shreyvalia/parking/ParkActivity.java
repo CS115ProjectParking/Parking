@@ -1,6 +1,5 @@
 package com.example.shreyvalia.parking;
 
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,12 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,15 +53,26 @@ public class ParkActivity extends ActionBarActivity {
         progress.setProgress(0);
 
 
-        MapFragment mMapFragment = MapFragment.newInstance();
-        FragmentTransaction fragmentTransaction = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.imageView, mMapFragment);
-            fragmentTransaction.commit();
-        }
+//        MapFragment mMapFragment = MapFragment.newInstance();
+//        FragmentTransaction fragmentTransaction = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+//            fragmentTransaction = getFragmentManager().beginTransaction();
+//            fragmentTransaction.add(R.id.imageView, mMapFragment);
+//            fragmentTransaction.commit();
+//        }
 
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
 
+            @Override
+            public void onMapReady(GoogleMap map) {
+                LatLng coreWest = new LatLng(36.999065, -122.063674);
+                map.addMarker(new MarkerOptions().position(coreWest).title("Core West Parking Lot"));
+                map.moveCamera(CameraUpdateFactory.zoomTo(17));
+                map.moveCamera(CameraUpdateFactory.newLatLng(coreWest));
+            }
+        });
 
         Intent intent = getIntent();
         id = intent.getIntExtra("lot_id", 0);
