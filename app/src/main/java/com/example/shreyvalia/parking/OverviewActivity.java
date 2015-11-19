@@ -1,5 +1,6 @@
 package com.example.shreyvalia.parking;
 
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +8,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,13 +22,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class OverviewActivity extends ActionBarActivity {
+public class OverviewActivity extends AppCompatActivity {
 
     private int num_lots = 6;
     private String lot_names[] = {"Core West", "North Remote", "East Remote", "College 10", "Crown", "Health Center"};
     private ParkingLot lots[] = new ParkingLot[num_lots];
     private Timer updater;
-    private final int refresh_duration = 15;
+    private int oldSpots;
+    private final int refresh_duration = 5;
     int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
 
     //TODO: checkout the keepSynced method
@@ -44,7 +48,16 @@ public class OverviewActivity extends ActionBarActivity {
             TextView capacity_text = lots[id].space;
             capacity_text.setText(population + "/" + capacity);
             ProgressBar progress = lots[id].progress;
-            progress.setProgress(100 * population / capacity);
+            //progress.setProgress(100 * population / capacity);
+            int spots = 100 * population / capacity;
+            oldSpots = progress.getProgress();
+
+            ObjectAnimator animation = ObjectAnimator.ofInt (progress, "progress", oldSpots, spots);
+            animation.setDuration (2000); //in milliseconds
+            animation.setInterpolator(new DecelerateInterpolator());
+            animation.start();
+            progress.clearAnimation();
+            //oldSpots = spots;
         }
     }
 
@@ -54,6 +67,7 @@ public class OverviewActivity extends ActionBarActivity {
         setContentView(R.layout.activity_overview);
         setTitle("Overview");
 
+        oldSpots = 0;
         LinearLayout lots_layout = (LinearLayout) findViewById(R.id.lots_layout);
 
         for (int i = 0; i < num_lots; i++) {
@@ -111,7 +125,7 @@ public class OverviewActivity extends ActionBarActivity {
         IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
 
-        refresh_all();
+        //refresh_all();
     }
 
     private void refresh_all() {

@@ -38,20 +38,44 @@
 
                 <!-- code for bottom half here -->
 
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/capacity_progressbar"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="0/0"
-                    android:id="@+id/capacityTextView"
-                    android:gravity="center" />
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:indeterminate="false"
+                        android:progressDrawable="@drawable/circular"
+                        android:background="@drawable/circle_shape"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:max="100"
+                        android:progress="65"
+                        android:layout_gravity="center" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:background="#00000000"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="0/0"
+                            android:id="@+id/capacityTextView"
+
+                            android:gravity="center"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+                        ...
+                    </RelativeLayout>
+                </FrameLayout>
+
+
+
 
             </LinearLayout>
 

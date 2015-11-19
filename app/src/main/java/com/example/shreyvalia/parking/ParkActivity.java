@@ -7,10 +7,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.animation.ObjectAnimator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,21 +26,31 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ParkActivity extends ActionBarActivity {
+public class ParkActivity extends AppCompatActivity {
 
 //    private ImageView iv;
     private Timer updater;
     private int id;
-    private final int refresh_duration = 15;
+    private int oldSpots;
+    private final int refresh_duration = 5;
 
     private class LotReceiver extends BroadcastReceiver {
         public void onReceive(Context context, Intent intent) {
             int capacity = intent.getIntExtra("cap", 0);
             int population = intent.getIntExtra("pop", 0);
             TextView capacity_text = (TextView) findViewById(R.id.capacityTextView);
-            capacity_text.setText(population + "/" + capacity + " spots taken");
-            ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
-            progress.setProgress(100 * population / capacity);
+            capacity_text.setText(population + "/" + capacity + "\nspots taken");
+           ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+            //progress.setProgress(100 * population / capacity);
+            int spots = 100 * population / capacity;
+            //Log.v("RAMIN", Integer.toString(oldSpots));
+            ObjectAnimator animation = ObjectAnimator.ofInt (progress, "progress", oldSpots, spots);
+            animation.setDuration(1000); //in milliseconds
+            animation.setInterpolator(new DecelerateInterpolator());
+            animation.start();
+            progress.clearAnimation();
+            oldSpots = spots;
+
         }
     }
 
@@ -44,14 +58,12 @@ public class ParkActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
-
+        oldSpots = 0;
 //        iv = (ImageView) findViewById(R.id.imageView);
 
-        IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
-        LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
-        ProgressBar progress = (ProgressBar) findViewById(R.id.capacity_progressbar);
+        ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setProgress(0);
-        progress.setScaleY(3f);
+       // progress.setScaleY(3f);
 
 
 //        MapFragment mMapFragment = MapFragment.newInstance();
@@ -61,6 +73,10 @@ public class ParkActivity extends ActionBarActivity {
 //            fragmentTransaction.add(R.id.imageView, mMapFragment);
 //            fragmentTransaction.commit();
 //        }
+
+
+        IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
+        LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -75,10 +91,12 @@ public class ParkActivity extends ActionBarActivity {
             }
         });
 
+
+
         Intent intent = getIntent();
         id = intent.getIntExtra("lot_id", 0);
         setResources(id);
-        refresh_lot(id);
+        //refresh_lot(id);
     }
 
     public void refresh_lot(int lot_number) {
