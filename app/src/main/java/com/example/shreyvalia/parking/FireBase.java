@@ -9,6 +9,8 @@ import com.firebase.client.Firebase;
  */
 public class FireBase {
     private static Firebase ourInstance = null;
+//    public static int pop = 0;
+//    public final int [] popTemp= {0};
 
     public static Firebase getInstance(Context a) {
         if(ourInstance == null){
@@ -21,5 +23,6 @@ public class FireBase {
     private FireBase(Context a) {
         Firebase.setAndroidContext(a);
         ourInstance = new Firebase("https://torrid-heat-8415.firebaseio.com/");
+
     }
 }

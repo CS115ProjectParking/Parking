@@ -33,8 +33,9 @@ public class OverviewActivity extends AppCompatActivity {
     private Timer updater;
     private int oldSpots;
     private final int refresh_duration = 5;
-    int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
-    int pop = 0;
+//    int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
+    public static int pop = 0;
+    final int [] popTemp = {0};
     //TODO: checkout the keepSynced method
 
     private class ParkingLot {
@@ -71,7 +72,6 @@ public class OverviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_overview);
         setTitle("Overview");
 
-        final int [] popTemp = {0};
         FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

@@ -14,9 +14,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,7 +31,8 @@ public class ParkActivity extends AppCompatActivity {
     private int id;
     private int oldSpots;
     private final int refresh_duration = 5;
-    int pop = 0;
+//    int pop = 0;
+    final int [] popTemp= {0};
 
     private class LotReceiver extends BroadcastReceiver {
         public void onReceive(Context context, Intent intent) {
@@ -66,22 +64,25 @@ public class ParkActivity extends AppCompatActivity {
         ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setProgress(0);
 
-        final int [] popTemp = {0};
-        FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                String a = snapshot.getValue().toString();
+//        popTemp;
 
-                String b = a.substring(0).toString();
-                popTemp[0] = Integer.parseInt(b);
-                pop = popTemp[0];
-            }
 
-            @Override
-            public void onCancelled(FirebaseError error) {
-            }
 
-        });
+//        FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                String a = snapshot.getValue().toString();
+//
+//                String b = a.substring(0).toString();
+//                popTemp[0] = Integer.parseInt(b);
+//                pop = popTemp[0];
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError error) {
+//            }
+//
+//        });
 
         // progress.setScaleY(3f);
 
@@ -123,7 +124,7 @@ public class ParkActivity extends AppCompatActivity {
         //deliver intent to lot service
         Intent serviceIntent = new Intent(getApplicationContext(), LotIntentService.class);
         serviceIntent.putExtra("lot", lot_number);
-        serviceIntent.putExtra("pop", pop);
+        serviceIntent.putExtra("pop", OverviewActivity.pop);
         startService(serviceIntent);
     }
 
