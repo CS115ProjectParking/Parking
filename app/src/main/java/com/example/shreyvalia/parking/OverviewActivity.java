@@ -34,7 +34,7 @@ public class OverviewActivity extends AppCompatActivity {
     private int oldSpots;
     private final int refresh_duration = 5;
 //    int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
-    public static int pop = 0;
+    public static int pop = 0; //population used in parkactivity as well.
     final int [] popTemp = {0};
     //TODO: checkout the keepSynced method
 
