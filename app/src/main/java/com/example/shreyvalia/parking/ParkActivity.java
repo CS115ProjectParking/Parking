@@ -64,38 +64,6 @@ public class ParkActivity extends AppCompatActivity {
         ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setProgress(0);
 
-//        popTemp;
-
-
-
-//        FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                String a = snapshot.getValue().toString();
-//
-//                String b = a.substring(0).toString();
-//                popTemp[0] = Integer.parseInt(b);
-//                pop = popTemp[0];
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError error) {
-//            }
-//
-//        });
-
-        // progress.setScaleY(3f);
-
-
-//        MapFragment mMapFragment = MapFragment.newInstance();
-//        FragmentTransaction fragmentTransaction = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-//            fragmentTransaction = getFragmentManager().beginTransaction();
-//            fragmentTransaction.add(R.id.imageView, mMapFragment);
-//            fragmentTransaction.commit();
-//        }
-
-
         IntentFilter intentFilter = new IntentFilter("BROADCAST_LOTDATA");
         LocalBroadcastManager.getInstance(this).registerReceiver(new LotReceiver(), intentFilter);
 
@@ -113,9 +81,10 @@ public class ParkActivity extends AppCompatActivity {
         });
 
 
-
         Intent intent = getIntent();
         id = intent.getIntExtra("lot_id", 0);
+        setTitle(intent.getStringExtra("lot_name"));
+
         setResources(id);
         //refresh_lot(id);
     }

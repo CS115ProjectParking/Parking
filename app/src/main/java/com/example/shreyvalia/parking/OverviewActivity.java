@@ -36,6 +36,7 @@ public class OverviewActivity extends AppCompatActivity {
 //    int popu[] = new int[num_lots]; //population for the the number of the lot. instance here and pass to lot intent service.
     public static int pop = 0; //population used in parkactivity as well.
     final int [] popTemp = {0};
+
     //TODO: checkout the keepSynced method
 
     private class ParkingLot {
@@ -51,6 +52,7 @@ public class OverviewActivity extends AppCompatActivity {
             int id = intent.getIntExtra("id", 0);
             TextView capacity_text = lots[id].space;
             capacity_text.setText(population + "/" + capacity);
+            capacity_text.setTextSize(20);
             ProgressBar progress = lots[id].progress;
             //progress.setProgress(100 * population / capacity);
             int spots = 100 * population / capacity;
@@ -72,11 +74,11 @@ public class OverviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_overview);
         setTitle("Overview");
 
-        FireBase.getInstance(this).child("Count").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FireBase.getInstance(this).child("Count").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 String a = snapshot.getValue().toString();
-
                 String b = a.substring(0).toString();
                 popTemp[0] = Integer.parseInt(b);
                 pop = popTemp[0];
@@ -106,7 +108,10 @@ public class OverviewActivity extends AppCompatActivity {
             ));
 
             TextView name = new TextView(this);
+//            name.setHeight(50);
             name.setText(lot_names[i]);
+            name.setTextSize(30);
+//            name.setHeight(400);
             text_layout.addView(name);
             new_lot.name = name;
 
@@ -132,6 +137,8 @@ public class OverviewActivity extends AppCompatActivity {
 
             final Intent intent = new Intent(OverviewActivity.this, ParkActivity.class);
             intent.putExtra("lot_id", i);
+            intent.putExtra("lot_name", lot_names[i]);
+
             lot_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,6 +147,9 @@ public class OverviewActivity extends AppCompatActivity {
             });
 
             lots_layout.addView(lot_layout);
+            LinearLayout blank = new LinearLayout(this);
+            blank.setMinimumHeight(20);
+            lots_layout.addView(blank);
             lots[i] = new_lot;
         }
 
@@ -191,6 +201,7 @@ public class OverviewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_overview, menu);
+
         return true;
     }
 

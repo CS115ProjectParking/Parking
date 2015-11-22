@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageButton menu_button = (ImageButton) findViewById(R.id.menuImageButton);
+        ImageView menu_button = (ImageView) findViewById(R.id.menuImageButton);
         //pop up a Toast on long press
         menu_button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
